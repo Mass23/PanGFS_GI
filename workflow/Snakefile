@@ -1,0 +1,60 @@
+# Pipeline for MetaPoly
+#
+# Example call: snakemake -s workflow/Snakefile --configfile config/config.yaml --use-conda --conda-prefix ${CONDA_PREFIX}/pipeline --cores 1 -rpn
+# Example call (esb-compute-01 or litcrit): CORES=24 snakemake -s workflow/Snakefile --configfile config/config.yaml --use-conda --conda-prefix ${CONDA_PREFIX}/pipeline --cores $CORES -rpn
+
+##############################
+# MODULES
+import os, re
+import glob
+import pandas as pd
+
+
+##############################
+# CONFIG
+# can be overwritten by using --configfile <path to config> when calling snakemake
+# configfile: "config/config.yaml"
+
+include:
+    "rules/init.smk"
+
+##############################
+# TARGETS & workflow/rules
+
+# List of (main) targets to be created
+TARGETS = []
+STEPS = ['1_clean_mags']
+
+# clean genomes
+if "1_clean_mags" in STEPS:
+    include:
+        "1_clean_mags.smk"
+    TARGETS += [
+        "status/1_clean_mags.done"
+    ]
+
+# Pangenome
+if "pan_genome" in STEPS:
+    include:
+        "2_pangenome.smk"
+    TARGETS += [
+        "status/gtdbtk.done"
+    ]
+
+# Phylogeny
+if "phylo_analysis" in STEPS:
+    include:
+        "rules/3_phylo_analysis.smk"
+    TARGETS += [
+        "status/phylo_analysis.done"
+    ]
+
+
+
+# No targets
+if len(TARGETS) == 0:
+    raise Exception('You are not serious. Nothing to be done? Really?')
+
+rule all:
+    input:
+        TARGETS
