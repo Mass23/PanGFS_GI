@@ -17,11 +17,11 @@ rule run_gtdbtk:
     input:
         os.path.join(MAGS_DIR)
     output:
-        directory(os.path.join(RESULTS_DIR, "gtdbtk_output"))
+        directory(os.path.join(RESULTS_DIR, 'gtdbtk_output'))
     log:
-        os.path.join(RESULTS_DIR, "logs/gtdbtk.log")
+        os.path.join(RESULTS_DIR, 'logs/gtdbtk.log')
     conda:
-        os.path.join(ENV_DIR, "gtdbtk_updated.yaml")
+        os.path.join(ENV_DIR, 'gtdbtk_updated.yaml')
     params:
         config["gtdbtk"]["path"]
     threads:
@@ -38,23 +38,23 @@ rule run_gtdbtk:
 
 rule list_target_mags:
     input:
-        GTDBTK_DIR=os.path.join(RESULTS_DIR, "gtdbtk_output/")
+        GTDBTK_DIR=os.path.join(RESULTS_DIR, 'gtdbtk_output/')
     params:
         GENUS=GENUS_LIST
     output:
-        expand(os.path.join(DATA_DIR, "accessions/{GENUS}/mags_list.txt"),GENUS=GENUS_LIST)
+        expand(os.path.join(DATA_DIR, 'accessions/{GENUS}/mags_list.txt'),GENUS=GENUS_LIST)
     run:
         for i in range(0,len(GENUS_LIST)):
             tax_string = 'g__' + params.GENUS[i]
-            gtdbtk_file = pd.read_csv(input.GTDBTK_DIR + '/gtdbtk.bac120.summary.tsv', sep='\t')
+            gtdbtk_file = pd.read_csv(f'{input.GTDBTK_DIR}/gtdbtk.bac120.summary.tsv', sep='\t')
             gtdbtk_sub = gtdbtk_file[gtdbtk_file['classification'].str.contains(tax_string)].user_genome
             gtdbtk_sub.to_csv(output[i], header =  False, sep='\t', index=False)
 
 checkpoint copy_target_mags:
     input:
-        expand(os.path.join(DATA_DIR, "accessions/{GENUS}/mags_list.txt"),GENUS=GENUS_LIST)
+        expand(os.path.join(DATA_DIR, 'accessions/{GENUS}/mags_list.txt'),GENUS=GENUS_LIST)
     output:
-        os.path.join(RESULTS_DIR, "MAGs")
+        os.path.join(RESULTS_DIR, 'MAGs')
     run:
         os.mkdir(output)
         for i in range(0,len(input)):
@@ -90,8 +90,10 @@ rule checkm:
         os.path.join(RESULTS_DIR, "cleaned_MAGs/")
     output:
         directory(os.path.join(RESULTS_DIR, "checkm_out"))
+    threads:
+        config["checkm"]["threads"]
     conda:
         os.path.join(ENV_DIR, "checkm.yaml")
     shell:
-        "checkm lineage_wf -r -t 32 -x fa {input} {output}"
+        "checkm lineage_wf -r -t threads -x fa {input} {output}"
 
