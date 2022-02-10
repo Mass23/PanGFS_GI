@@ -1,0 +1,3 @@
+WorkflowError in line 18 of /mnt/md1200/epfl_sber/massimo/PanGFS_GI/workflow/Snakefile:
+Failed to open /mnt/md1200/epfl_sber/massimo/PanGFS_GI/workflow/rules/init.smk.
+  File "/mnt/md1200/epfl_sber/massimo/PanGFS_GI/workflow/Snakefile", line 18, in <module>

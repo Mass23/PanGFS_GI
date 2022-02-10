@@ -1,0 +1,5 @@
+name: checkm
+channels:
+  - bioconda
+  - defaults
+prefix: /home/massimo.bourquin/apps/miniconda3/envs/checkm
