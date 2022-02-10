@@ -28,7 +28,7 @@ STEPS = ['1_clean_mags']
 # clean genomes
 if "1_clean_mags" in STEPS:
     include:
-        "1_clean_mags.smk"
+        "rules/1_clean_mags.smk"
     TARGETS += [
         "status/1_clean_mags.done"
     ]
@@ -36,7 +36,7 @@ if "1_clean_mags" in STEPS:
 # Pangenome
 if "pan_genome" in STEPS:
     include:
-        "2_pangenome.smk"
+        "rules/2_pangenome.smk"
     TARGETS += [
         "status/gtdbtk.done"
     ]
