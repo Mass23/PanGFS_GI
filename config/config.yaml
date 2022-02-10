@@ -19,6 +19,9 @@ gtdbtk_db_dir: "/mnt/esb-storage-01/NOMIS/databases/release202"
 gtdbtk:
   path: "/mnt/esb-storage-01/NOMIS/databases/release202"
   threads: 48
+ 
+checkm:
+  threads: 48
 
 ##############################
 # Taxonomies and associated info for gtotree
