@@ -2,7 +2,6 @@ import os
 import glob
 import pandas as pd
 
-localrules: bin_collect_mantis, bin_link_mantis, mantis_config, mantis_reformat_consensus, bin_folder_sample_mantis, bin_folder_sample
 
 ###########################
 # default
