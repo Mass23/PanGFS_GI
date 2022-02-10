@@ -42,7 +42,7 @@ rule list_target_mags:
     params:
         GENUS=GENUS_LIST
     output:
-        expand(os.path.join(DATA_DIR, "lists/{GENUS}/mags_list.txt"),GENUS=GENUS_LIST)
+        expand(os.path.join(DATA_DIR, "accessions/{GENUS}/mags_list.txt"),GENUS=GENUS_LIST)
     run:
         for i in range(0,len(GENUS_LIST)):
             tax_string = 'g__' + params.GENUS[i]
@@ -52,7 +52,7 @@ rule list_target_mags:
 
 checkpoint copy_target_mags:
     input:
-        expand(os.path.join(DATA_DIR, "lists/{GENUS}/mags_list.txt"),GENUS=GENUS_LIST)
+        expand(os.path.join(DATA_DIR, "accessions/{GENUS}/mags_list.txt"),GENUS=GENUS_LIST)
     output:
         os.path.join(RESULTS_DIR, "MAGs")
     run:
