@@ -3,7 +3,7 @@ import glob
 import pandas as pd
 
 ###########################
-rule 1_clean_mags:
+rule clean_mags:
     input:
         os.path.join(RESULTS_DIR, "checkm_out")
     output:
