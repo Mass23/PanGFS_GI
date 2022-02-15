@@ -13,6 +13,9 @@ rule pan_genome:
     output:
         touch("status/pan_genome.done")
 
+rule checkm:
+
+
 rule prokka_genomes:
     input:
         expand(os.path.join(RESULTS_DIR, '{GENUS}'), GENUS=GENUS_LIST)
